@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SarCoding — новый технологический стартап. Создаём продукты для образования и бизнеса.">
+  <title>SarCoding — Technology startup</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="/">Sar<span>Coding</span></a>
+  <a class="nav-link" href="#contact">Связаться</a>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="badge">EST. JULY 2026</div>
+    <h1>We build.<br><span>We solve.</span></h1>
+    <p class="hero-text">
+      SarCoding — новый технологический стартап, запущенный в июле 2026 года.
+      Мы создаём практичные цифровые продукты, которые решают реальные задачи.
+    </p>
+    <div class="actions">
+      <a class="button primary" href="#product">Наш продукт ↓</a>
+      <a class="button secondary" href="#contact">Связаться</a>
+    </div>
+  </section>
+
+  <section class="section product" id="product">
+    <div class="section-label">01 / PRODUCT</div>
+    <div class="product-grid">
+      <div>
+        <h2>Stud<span>CRM</span></h2>
+        <p>
+          ERP/CRM-платформа для образовательных центров.
+          StudCRM помогает управлять учениками, преподавателями,
+          расписанием, задачами и другими процессами в одном месте.
+        </p>
+        <a class="text-link" href="#contact">Узнать больше →</a>
+      </div>
+      <div class="product-card">
+        <div class="card-top">
+          <span>StudCRM</span>
+          <span class="status">IN DEVELOPMENT</span>
+        </div>
+        <div class="dashboard">
+          <div class="dash-line wide"></div>
+          <div class="dash-line"></div>
+          <div class="dash-grid">
+            <div></div><div></div><div></div>
+          </div>
+          <div class="dash-line"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about">
+    <div class="section-label">02 / ABOUT</div>
+    <div class="about-grid">
+      <h2>От идеи<br>к продукту.</h2>
+      <p>
+        Мы только начинаем свой путь. SarCoding создаётся с фокусом
+        на разработке собственных продуктов, инженерном подходе
+        и постоянном улучшении того, что мы создаём.
+      </p>
+    </div>
+  </section>
+
+  <section class="section contact" id="contact">
+    <div class="section-label">03 / CONTACT</div>
+    <div class="contact-grid">
+      <div>
+        <h2>Есть идея?<br><span>Давайте поговорим.</span></h2>
+        <p>Оставьте свои контакты — заявка сразу попадёт нашей команде в Telegram.</p>
+      </div>
+
+      <form id="contactForm">
+        <label>
+          Имя
+          <input name="name" type="text" placeholder="Как к вам обращаться?" maxlength="100" required>
+        </label>
+        <label>
+          Контакт
+          <input name="contact" type="text" placeholder="@username, Telegram, email или телефон" maxlength="200" required>
+        </label>
+        <label>
+          Сообщение <span>(необязательно)</span>
+          <textarea name="message" rows="4" maxlength="2000" placeholder="Расскажите, чем мы можем помочь"></textarea>
+        </label>
+        <button class="button primary submit" type="submit">Отправить заявку →</button>
+        <div id="formMessage" class="form-message" role="status"></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo">Sar<span>Coding</span></div>
+  <p>© 2026 SarCoding. All rights reserved.</p>
+</footer>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
