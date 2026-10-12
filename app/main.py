@@ -1,59 +1,97 @@
 import os
-from fastapi import FastAPI, Request, Form
+import re
+import html
+import logging
+from typing import Annotated
+
+import httpx
+from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import httpx
+from pydantic import BaseModel, Field, ValidationError
 
-app = FastAPI(title="SarCoding")
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
-templates = Jinja2Templates(directory="app/templates")
+logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
+logger = logging.getLogger("sarcoding")
 
-BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app = FastAPI(title="SarCoding", docs_url=None, redoc_url=None)
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
+
+class ContactLead(BaseModel):
+    name: str = Field(min_length=2, max_length=80)
+    contact: str = Field(min_length=3, max_length=160)
+    message: str = Field(min_length=10, max_length=3000)
+
+def clean(value: str) -> str:
+    return re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", "", value).strip()
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
-@app.post("/api/contact")
-async def contact(
-    name: str = Form(...),
-    contact: str = Form(...),
-    message: str = Form(""),
-):
-    name = name.strip()
-    contact = contact.strip()
-    message = message.strip()
-
-    if not name or not contact:
-        return JSONResponse({"ok": False, "message": "Заполните имя и контакт."}, status_code=400)
-
-    if len(name) > 100 or len(contact) > 200 or len(message) > 2000:
-        return JSONResponse({"ok": False, "message": "Слишком длинные данные."}, status_code=400)
-
-    if not BOT_TOKEN or not CHAT_ID:
-        return JSONResponse({"ok": False, "message": "Telegram ещё не настроен."}, status_code=503)
-
-    text = (
-        "🚀 Новая заявка с sarcoding.uz\n\n"
-        f"👤 Имя: {name}\n"
-        f"📩 Контакт: {contact}\n"
-        f"💬 Сообщение: {message or '—'}"
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={"telegram": os.getenv("PUBLIC_TELEGRAM", "https://t.me/")},
     )
 
-    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+@app.get("/health")
+async def health():
+    return {"status": "ok", "service": "sarcoding"}
+
+@app.post("/contact")
+async def contact(
+    request: Request,
+    name: Annotated[str, Form()],
+    contact: Annotated[str, Form()],
+    message: Annotated[str, Form()],
+    website: Annotated[str, Form()] = "",  # honeypot: humans leave it empty
+):
+    # Basic bot trap. Return a neutral success to avoid teaching bots the field.
+    if website.strip():
+        return JSONResponse({"ok": True, "message": "Заявка отправлена."})
+
     try:
-        async with httpx.AsyncClient(timeout=10) as client:
-            response = await client.post(
-                url,
-                json={"chat_id": CHAT_ID, "text": text},
-            )
-            response.raise_for_status()
-    except Exception:
+        lead = ContactLead(
+            name=clean(name),
+            contact=clean(contact),
+            message=clean(message),
+        )
+    except ValidationError as exc:
+        errors = "; ".join(
+            f"{'.'.join(str(x) for x in e['loc'])}: {e['msg']}"
+            for e in exc.errors()
+        )
+        return JSONResponse({"ok": False, "message": "Проверьте поля формы. " + errors}, status_code=422)
+
+    token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+    chat_id = os.getenv("TELEGRAM_CHAT_ID", "").strip()
+    if not token or not chat_id:
+        logger.error("Telegram contact form is not configured")
         return JSONResponse(
-            {"ok": False, "message": "Не удалось отправить заявку. Попробуйте ещё раз."},
+            {"ok": False, "message": "Форма временно недоступна. Напишите нам напрямую в Telegram."},
+            status_code=503,
+        )
+
+    text = (
+        "Новая заявка с сайта SarCoding\n\n"
+        f"Имя: {lead.name}\n"
+        f"Контакт: {lead.contact}\n"
+        f"Задача: {lead.message}"
+    )
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    try:
+        async with httpx.AsyncClient(timeout=8.0) as client:
+            response = await client.post(url, json={"chat_id": chat_id, "text": text})
+            response.raise_for_status()
+            payload = response.json()
+            if not payload.get("ok"):
+                raise RuntimeError("Telegram API returned ok=false")
+    except Exception:
+        logger.exception("Unable to deliver contact lead to Telegram")
+        return JSONResponse(
+            {"ok": False, "message": "Не удалось отправить заявку. Попробуйте позже или напишите нам в Telegram."},
             status_code=502,
         )
 
-    return {"ok": True, "message": "Заявка отправлена. Мы свяжемся с вами."}
+    return JSONResponse({"ok": True, "message": "Спасибо! Заявка отправлена. Мы свяжемся с вами."})

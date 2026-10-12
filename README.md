@@ -1,46 +1,29 @@
-# SarCoding
+# SarCoding — website
 
-Landing page for SarCoding with a Telegram contact form.
+Responsive landing page for SarCoding, built with FastAPI, Jinja2, CSS and vanilla JavaScript. Contact form sends leads to a configured Telegram chat and does not store them in a database.
 
-## Local run
+## Run locally
 
 ```bash
 python -m venv .venv
-# Windows:
-.venv\Scripts\activate
-# Linux/macOS:
-source .venv/bin/activate
-
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+# Linux/macOS: source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env
 uvicorn app.main:app --reload
 ```
 
-Open http://127.0.0.1:8000
+Open http://127.0.0.1:8000.
 
-## Telegram setup
-
-Create a bot with @BotFather and obtain its token.
-
-Set:
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
-
-Do not commit the real `.env` or bot token to GitHub.
+Set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in your environment or local `.env` (never commit real secrets). `PUBLIC_TELEGRAM` is the public contact link shown/used in configuration.
 
 ## Render
 
-Create a Web Service from this repository.
+Connect this repository to Render and use the included `render.yaml`, or create a Docker Web Service. Configure `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` as secret environment variables in the Render dashboard.
 
-Build:
-`pip install -r requirements.txt`
+## Notes
 
-Start:
-`uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-
-Add the two environment variables in Render.
-
-Then add `sarcoding.uz` as a Custom Domain in Render and follow the DNS records Render shows.
-
-## Important
-
-The contact form sends data to the configured Telegram chat. It does not store submissions in a database.
+- `/health` provides a simple health check.
+- Contact submissions are delivered to Telegram; no database is used.
+- The product card describes StudCRM at a high level and avoids claiming every planned feature is production-ready.
+- Before production, configure rate limiting at the edge (or add application-level rate limiting), privacy/legal text suitable for your jurisdiction, and test Telegram delivery.
