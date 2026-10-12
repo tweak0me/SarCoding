@@ -23,7 +23,16 @@ Connect this repository to Render and use the included `render.yaml`, or create 
 
 ## Notes
 
+<<<<<<< HEAD
 - `/health` provides a simple health check.
 - Contact submissions are delivered to Telegram; no database is used.
 - The product card describes StudCRM at a high level and avoids claiming every planned feature is production-ready.
 - Before production, configure rate limiting at the edge (or add application-level rate limiting), privacy/legal text suitable for your jurisdiction, and test Telegram delivery.
+=======
+Start:
+`uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+
+## Important
+
+The contact form sends data to the configured Telegram chat. It does not store submissions in a database.
+>>>>>>> 85935abb9b0a607e32674f0c3120f8d17c6a2ff8
