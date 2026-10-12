@@ -37,10 +37,6 @@ Build:
 Start:
 `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 
-Add the two environment variables in Render.
-
-Then add `sarcoding.uz` as a Custom Domain in Render and follow the DNS records Render shows.
-
 ## Important
 
 The contact form sends data to the configured Telegram chat. It does not store submissions in a database.
