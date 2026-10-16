@@ -8,3 +8,31 @@
 .studcrm-hero{padding-top:100px;overflow:hidden}.studcrm-hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:65px;align-items:center;min-height:500px}.studcrm-copy h1{font-size:clamp(48px,6vw,72px);line-height:1.05;letter-spacing:-3.5px;margin:24px 0}.studcrm-copy .hero-lead{max-width:580px}.studcrm-feature-panel{position:relative;padding:27px;border:1px solid rgba(175,190,230,.18);border-radius:24px;background:linear-gradient(145deg,rgba(22,31,56,.92),rgba(11,16,32,.95));box-shadow:0 30px 100px rgba(0,0,0,.25);overflow:hidden}.studcrm-feature-panel:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(105,218,228,.09);filter:blur(50px);right:-80px;top:-90px;pointer-events:none}.studcrm-panel-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:22px;border-bottom:1px solid var(--line);position:relative}.studcrm-panel-title{display:grid;gap:5px;margin:25px 0 18px;position:relative}.studcrm-panel-title span{font-size:10px;color:var(--muted)}.studcrm-panel-title b{font-size:20px}.studcrm-mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;position:relative}.studcrm-mini-card{padding:19px;border:1px solid rgba(175,190,230,.13);border-radius:13px;background:rgba(255,255,255,.025);display:grid;gap:8px}.studcrm-mini-card>span{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(105,218,228,.1);color:var(--cyan);font-size:18px}.studcrm-mini-card b{font-size:13px}.studcrm-mini-card small{font-size:10px;color:var(--muted)}.studcrm-panel-note{display:flex;align-items:center;gap:9px;margin-top:20px;font-size:10px;color:var(--muted);position:relative}.studcrm-details .section-heading{max-width:700px}.studcrm-capabilities{margin-top:45px}.studcrm-capabilities .service-card{min-height:235px}
 @media(max-width:900px){.studcrm-hero-grid{grid-template-columns:1fr;gap:45px}.studcrm-feature-panel{max-width:650px}.studcrm-copy h1{font-size:clamp(44px,8vw,64px)}}
 @media(max-width:650px){.studcrm-hero{padding-top:55px}.studcrm-hero-grid{gap:35px}.studcrm-feature-panel{padding:20px;border-radius:18px}.studcrm-mini-grid{gap:8px}.studcrm-mini-card{padding:13px}.studcrm-panel-title b{font-size:17px}.studcrm-capabilities{margin-top:30px}}
+
+
+/* Refined StudCRM hero panel: clear hierarchy and readable workflow rows */
+.studcrm-feature-panel{padding:25px;background:linear-gradient(150deg,rgba(18,27,49,.97),rgba(9,14,28,.98))}
+.studcrm-panel-head{padding-bottom:18px}
+.studcrm-overview{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:25px 0 21px;position:relative}
+.studcrm-overview>div:first-child{min-width:0}
+.studcrm-kicker{display:block;color:#8e9cb9;font-size:9px;font-weight:800;letter-spacing:1.5px;margin-bottom:10px}
+.studcrm-overview h2{font-size:clamp(23px,2.4vw,31px);line-height:1.2;letter-spacing:-1.1px;margin:0 0 10px;font-weight:800}
+.studcrm-overview p{font-size:11px;line-height:1.7;color:var(--muted);max-width:290px;margin:0}
+.studcrm-orbit-mark{position:relative;flex:0 0 92px;width:92px;height:92px;border:1px solid rgba(126,218,232,.24);border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,rgba(112,213,226,.13),rgba(127,112,242,.04) 65%,transparent 66%)}
+.studcrm-orbit-mark:before,.studcrm-orbit-mark:after{content:"";position:absolute;inset:9px;border:1px solid rgba(164,150,255,.2);border-radius:50%}
+.studcrm-orbit-mark:after{inset:-7px;border-color:rgba(126,218,232,.1)}
+.studcrm-orbit-mark span{font-size:19px;font-weight:800;letter-spacing:-1px;background:linear-gradient(110deg,#b5a0ff,#72e2e7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.studcrm-orbit-mark i,.studcrm-orbit-mark b{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px rgba(114,226,231,.6)}
+.studcrm-orbit-mark i{top:9px;right:13px}.studcrm-orbit-mark b{bottom:13px;left:8px;background:#b5a0ff}
+.studcrm-workflows{display:grid;gap:8px;position:relative}
+.studcrm-workflow-row{display:flex;align-items:center;gap:13px;min-width:0;padding:12px 14px;border:1px solid rgba(175,190,230,.12);border-radius:12px;background:rgba(255,255,255,.025);transition:background .2s,border-color .2s,transform .2s}
+.studcrm-workflow-row:hover{background:rgba(105,218,228,.055);border-color:rgba(105,218,228,.27);transform:translateX(3px)}
+.studcrm-workflow-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:10px;background:rgba(105,218,228,.09);color:var(--cyan);font-size:17px}
+.studcrm-workflow-copy{display:grid;gap:2px;min-width:0}
+.studcrm-workflow-copy b{font-size:12px;line-height:1.45;color:#edf1ff}
+.studcrm-workflow-copy small{font-size:10px;line-height:1.5;color:#8d9ab5}
+.studcrm-workflow-arrow{margin-left:auto;color:#7888a8;font-size:15px;transition:color .2s}
+.studcrm-workflow-row:hover .studcrm-workflow-arrow{color:var(--cyan)}
+.studcrm-panel-note{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:17px;font-size:9px}
+.studcrm-note-divider{width:3px;height:3px;border-radius:50%;background:#65738e;margin:0 2px}
+@media(max-width:650px){.studcrm-feature-panel{padding:18px}.studcrm-overview{padding:21px 0 17px}.studcrm-orbit-mark{flex-basis:66px;width:66px;height:66px}.studcrm-orbit-mark span{font-size:15px}.studcrm-overview h2{font-size:23px}.studcrm-overview p{font-size:10px}.studcrm-workflow-row{padding:10px 11px;gap:10px}.studcrm-workflow-icon{flex-basis:33px;width:33px;height:33px}.studcrm-workflow-copy small{font-size:9px}.studcrm-panel-note{gap:6px}}
