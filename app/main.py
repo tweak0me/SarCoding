@@ -35,6 +35,10 @@ async def home(request: Request):
         context={"telegram": os.getenv("PUBLIC_TELEGRAM", "https://t.me/")},
     )
 
+@app.get("/studcrm", response_class=HTMLResponse)
+async def studcrm_page(request: Request):
+    return templates.TemplateResponse(request=request, name="studcrm.html", context={"telegram": os.getenv("PUBLIC_TELEGRAM", "https://t.me/")})
+
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "sarcoding"}
